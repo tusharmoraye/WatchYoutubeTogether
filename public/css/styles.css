@@ -1,0 +1,81 @@
+body {
+    background-color: #e3f2fd;
+}
+
+#player-container {
+    display: none;
+}
+
+#chat-room {
+    width: 100%;
+    height: 30rem;
+}
+
+#chat-body {
+    height: 80%;
+    overflow: auto;
+}
+
+.chat-input-box {
+    height: 10%;
+}
+
+.chat-input-box .form-group {
+    margin: 0;
+    margin-top: 10px;
+    width: 70%;
+    display: inline-block;
+}
+
+#login {
+    width: 18rem;
+    height: 15rem;
+}
+
+.label {
+    font-size: 0.8rem;
+}
+
+.login-btn {
+    width: 60%;
+    margin-left: 20%;
+}
+
+.navbar-brand {
+    cursor: pointer;
+}
+
+.shadow {
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
+}
+
+#logout-btn {
+    display: none;
+    position: absolute;
+    right: 0;
+    cursor: pointer;
+}
+
+#watch-room {
+    display: none;
+}
+
+.nav-tabs li a {
+    text-decoration: none;
+    color: #212529;
+}
+
+#video-url {
+    width: 100%;
+}
+
+#all-watchrooms {
+    list-style-type: none;
+    margin-left: 5%;
+    margin-right: 5%;
+    padding: 0;
+}
+
+.list-elements {
+    border-bottom: 1px solid rgba(0, 0, 0, .125);
+}
