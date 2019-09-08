@@ -32,10 +32,8 @@ class ConnectionManager {
         console.log("msg ", msg);
         const data = JSON.parse(msg);
         if (data.type === 'username-update') {
-            // window.location.hash = data.id;
             usernameUpdate(data);
         } else if (data.type === 'watchroom-create') {
-            // this.updateManager(data.peers);
             watchroomCreate(data);
         } else if (data.type === 'watchroom-broadcast') {
             // this.updateManager(data.peers);
@@ -45,11 +43,13 @@ class ConnectionManager {
             changeVideoId(data);
         } else if (data.type === 'get-all-rooms') {
             showAllRooms(data);
-        } else if (data.type === 'initial-state') {
+        } else if (data.type === 'join-watchroom') {
             setInitialstate(data);
         } else if (data.type === 'play-status') {
             changePlayerStatus(data);
-        }
+        } else if (data.type === 'chat-message') {
+			messageReceived(data);
+		}
     }
 
     send(data) {
