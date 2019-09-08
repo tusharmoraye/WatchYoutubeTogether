@@ -13,6 +13,11 @@ function login() {
     }
 }
 
+function welcome() {
+	document.querySelector('#welcome').style.display = 'none';
+	document.querySelector('#watch-room').style.display = 'block';
+}
+
 function createWatchroom() {
 	const username = document.querySelector('#username');
     const watchroomName = document.querySelector('#watchroom-name');
@@ -108,7 +113,7 @@ function showAllRooms(data) {
             li.innerText = room;
             li.className = "list-elements p-2";
             const btn = document.createElement('button');
-            btn.className = "btn btn-primary";
+            btn.className = "btn btn-primary float-right";
             btn.innerText = "join";
             btn.onclick = () => joinWatchroom(room);
             li.appendChild(btn);

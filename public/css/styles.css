@@ -19,6 +19,10 @@ body {
 	bottom:0;
 }
 
+#watch-room {
+	display: none;
+}
+
 #messages {
 	margin: 10px;
 	padding: 10px;
@@ -51,9 +55,15 @@ body {
     font-size: 0.8rem;
 }
 
-.login-btn {
+.watchroom-btn {
     width: 60%;
     margin-left: 20%;
+}
+
+.custom-btn {
+    width: 10rem;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .navbar-brand {

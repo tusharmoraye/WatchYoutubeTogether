@@ -22,19 +22,21 @@
 		</nav>
 		<div class="container">
 			<div class="row justify-content-center">
-				<!-- <div id="login" class="mt-5 card shadow rounded">
-					<div class="h3 my-4 text-center">Log In</div>
-					<form>
-						<div class="form-group mx-3 mb-2">
-							<label for="username" class="label">Username</label>
-							<input type="text" class="form-control" id="username" placeholder="tushar.moraye">
-						</div>
-						<button type="button" class="btn btn-primary mb-2 mt-2 login-btn" onclick="login()">
-							Log In
-						</button>
-					</form>
-					<div id="alert-msg" role="alert"></div>
-				</div> -->
+				<div id="welcome" class="mt-5 card shadow rounded col-12 col-md-10 col-lg-8 text-center">
+					<div class="h3 my-4">Welcome</div>
+					<p>
+						This website is used for playing youtube videos in group. <br />
+						You can create a room for watching the video. <br />
+						Your friends can join your watchroom and watch the video. <br />
+						You can chat with your friends that are joined in your room. <br />
+						You can change the video by pasting the youtube video link in following format. <br />
+						https://www.youtube.com/watch?v=ATf05n5LBHQ <br />
+						Click on continue to check out the website.
+					</p>
+					<button type="button" class="btn btn-primary mb-2 mt-2 custom-btn" onclick="welcome()">
+						Continue
+					</button>
+				</div>
 
 				<div id="watch-room" class="mt-5 card shadow rounded">
 					<ul class="nav nav-tabs">
@@ -63,7 +65,7 @@
 								</div>
 								<button 
 									type="button" 
-									class="btn btn-primary mb-2 mt-2 login-btn"
+									class="btn btn-primary mb-2 mt-2 watchroom-btn"
 									onclick="createWatchroom()">
 									Create
 								</button>
@@ -136,13 +138,10 @@
 
 
 		<script src="/socket.io/socket.io.js"></script>
-		<!-- <script src="/js/socket.js"></script> -->
 		<script src="js/connectionManager.js"></script>
 		<script src="js/main.js"></script>
 		<script src="js/auth.js"></script>
-		<!-- <script src="js/state.js"></script> -->
 		<script src="js/youtube.js"></script>
-		<!-- <script src="js/auth.js"></script> -->
 	</body>
 
 </html>
