@@ -1,6 +1,8 @@
 var express = require('express');
 var http = require('http');
 var bodyParser = require('body-parser');
+const path = require("path");
+
 // const WebSocketServer = require('ws').Server;
 var app = express();
 var server = http.createServer(app);
@@ -10,7 +12,7 @@ const Client = require('./server/client');
 var users = [];
 const rooms = new Map;
 
-app.use(express.static('public')); //Serves resources from public folder
+app.use("/", express.static(path.join(__dirname, "public"))); //Serves resources from public folder
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
