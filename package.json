@@ -4,13 +4,26 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "node app"
+    "start": "webpack --mode production && node app",
+    "develop": "webpack --mode development",
+    "build": "webpack --mode production"
   },
-  "author": "",
+  "author": "Tushar Moraye",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "bootstrap": "^4.3.1",
     "express": "^4.17.1",
-    "socket.io": "^2.2.0"
+    "jquery": "^3.4.1",
+    "popper.js": "^1.15.0",
+    "socket.io": "^2.2.0",
+    "socket.io-client": "^2.2.0"
+  },
+  "devDependencies": {
+    "css-loader": "^3.2.0",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "html-webpack-plugin": "^3.2.0",
+    "webpack": "^4.40.2",
+    "webpack-cli": "^3.3.8"
   }
 }

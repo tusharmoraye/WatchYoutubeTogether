@@ -11,7 +11,8 @@ const WatchRoom = require("./server/watchRoom");
 const Client = require("./server/client");
 const rooms = new Map();
 
-app.use("/", express.static(path.join(__dirname, "public"))); //Serves resources from public folder
+// Serves resources from dist folder
+app.use("/", express.static(path.join(__dirname, "dist")));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 

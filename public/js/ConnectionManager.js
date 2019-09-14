@@ -1,15 +1,16 @@
-class ConnectionManager {
+import * as recievedEventUtils from './recievedEventUtils';
+import io from 'socket.io-client';
+
+export default class ConnectionManager {
     constructor() {
         this.conn = null;
     }
 
     connect() {
-        this.conn = io();;
-
+        this.conn = io();
         this.conn.addEventListener('open', () => {
             console.log('Connection established');
         });
-
         this.conn.addEventListener('message', event => {
             console.log('Received message', event);
             this.receive(event);
@@ -32,23 +33,19 @@ class ConnectionManager {
         console.log("msg ", msg);
         const data = JSON.parse(msg);
         if (data.type === 'username-update') {
-            usernameUpdate(data);
+            recievedEventUtils.usernameUpdate(data);
         } else if (data.type === 'watchroom-create') {
-            watchroomCreate(data);
-        } else if (data.type === 'watchroom-broadcast') {
-            // this.updateManager(data.peers);
-        } else if (data.type === 'state-update') {
-            // this.updatePeer(data.clientId, data.fragment, data.state);
+            recievedEventUtils.watchroomCreate(data);
         } else if (data.type === 'set-video-id') {
-            changeVideoId(data);
+            recievedEventUtils.changeVideoId(data);
         } else if (data.type === 'get-all-rooms') {
-            showAllRooms(data);
+            recievedEventUtils.showAllRooms(data);
         } else if (data.type === 'join-watchroom') {
-            setInitialstate(data);
+            recievedEventUtils.setInitialstate(data);
         } else if (data.type === 'play-status') {
-            changePlayerStatus(data);
+            recievedEventUtils.playerStatusUpdate(data);
         } else if (data.type === 'chat-message') {
-			messageReceived(data);
+			recievedEventUtils.messageReceived(data);
 		}
     }
 

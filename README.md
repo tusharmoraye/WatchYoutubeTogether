@@ -10,4 +10,4 @@ A web application to watch youtube videos with your friends.
 
 ## Things to do
 * Add strict mode to enable only admin to do or allow changes in the player state.
-* Add chat functionality.
+* Complete the chat functionality.
