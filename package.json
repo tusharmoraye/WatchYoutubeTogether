@@ -4,9 +4,10 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "webpack --mode production && node app",
+    "start": "node app",
     "develop": "webpack --mode development",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "heroku-postbuild": "webpack --mode production"
   },
   "author": "Tushar Moraye",
   "license": "ISC",
