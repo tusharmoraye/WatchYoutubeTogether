@@ -13,17 +13,32 @@ function login() {
     }
 }
 
+function welcome() {
+	document.querySelector('#welcome').style.display = 'none';
+	document.querySelector('#watch-room').style.display = 'block';
+}
+
 function createWatchroom() {
-    const id = document.querySelector('#watchroom-name').value;
-    const alert = document.querySelector('#create-watchroom-alert-msg');
-    if (!id) {
+	const username = document.querySelector('#username');
+    const watchroomName = document.querySelector('#watchroom-name');
+	const alert = document.querySelector('#create-watchroom-alert-msg');
+	if(!username.value) {
+		alert.className = "alert alert-danger";
+		alert.innerText = "Please enter the username";
+		return;
+	}
+    if (!watchroomName.value) {
         alert.className = "alert alert-danger";
-        alert.innerText = "Please enter the watchroom name";
+		alert.innerText = "Please enter the watchroom name";
+		return;
     } else {
         connectionManager.send({
-            id,
+			id: watchroomName.value,
+			username: username.value,
             type: 'create-watchroom'
-        });
+		});
+		watchroomName.value = '';
+		username.value = '';
     }
 }
 
@@ -59,10 +74,6 @@ function usernameUpdate(data) {
     console.log("data ", data);
     const logoutBtn = document.querySelector("#logout-btn");
     logoutBtn.style.display = 'block';
-    const login = document.querySelector("#login");
-    login.style.display = 'none';
-    const watchRoom = document.querySelector("#watch-room");
-    watchRoom.style.display = 'block';
 }
 
 function watchroomCreate(data) {
@@ -72,6 +83,8 @@ function watchroomCreate(data) {
         alert.className = "alert alert-danger";
         alert.innerText = data.err;
     } else {
+		const logoutBtn = document.querySelector("#logout-btn");
+    	logoutBtn.style.display = 'block';
         const watchRoom = document.querySelector("#watch-room");
         watchRoom.style.display = 'none';
         const player = document.querySelector("#player-container");
@@ -100,7 +113,7 @@ function showAllRooms(data) {
             li.innerText = room;
             li.className = "list-elements p-2";
             const btn = document.createElement('button');
-            btn.className = "btn btn-primary";
+            btn.className = "btn btn-primary float-right";
             btn.innerText = "join";
             btn.onclick = () => joinWatchroom(room);
             li.appendChild(btn);
@@ -117,17 +130,31 @@ function changeVideoId(data) {
 }
 
 function joinWatchroom(room) {
-    if (room)
+	const usernameInput = document.querySelector('#join-username');
+	const username = usernameInput.value;
+	if (username && room) {
         connectionManager.send({
-            room,
-            type: 'join-watchroom'
-        });
+            type: 'join-watchroom',
+			room,
+			username
+		});
+		usernameInput.value = "";
+		return;
+	}
+	const alert = document.querySelector("#join-watchroom-alert-msg");
+	alert.className = "alert alert-danger";
+	alert.innerText = "please enter the username";    
 }
 
 function setInitialstate(data) {
     console.log("data ", data);
     if (data.err) {
+		const alert = document.querySelector("#join-watchroom-alert-msg");
+		alert.className = "alert alert-danger";
+		alert.innerText = data.err;
     } else {
+		const logoutBtn = document.querySelector("#logout-btn");
+    	logoutBtn.style.display = 'block';
         const watchRoom = document.querySelector("#watch-room");
         watchRoom.style.display = 'none';
         const player = document.querySelector("#player-container");
@@ -141,5 +168,58 @@ function sendPlayerStatus(status, time) {
         type: 'play-status',
         status,
         time
-    })
+    });
+}
+
+function getMessageBody(message, time, username = null) {
+	const div = document.createElement('div');
+	div.className = "sent-message";
+	const messageHeader = document.createElement('div');
+	messageHeader.className = "message-header";
+	const messageTime = document.createElement('span');
+	messageTime.innerText = time;
+	messageTime.className = "message-time";
+	if(username) {
+		div.className = "recieved-message";
+		const messageUser = document.createElement('span');
+		messageUser.innerText = "# " + username;
+		messageHeader.appendChild(messageUser);
+	}
+	messageHeader.appendChild(messageTime);
+	const messageBody = document.createElement('div');
+	messageBody.className = "message-body"
+	messageBody.innerText = message;
+	div.appendChild(messageHeader);
+	div.appendChild(messageBody);
+	return div;
+}
+
+function sendMessage() {
+	const messageInput = document.querySelector("#chat-input");
+	const chatBody = document.querySelector("#chat-body");
+	const message = messageInput.value;
+	const time = new Date().toLocaleString();
+	if(!message) return;
+	connectionManager.send({
+		type: 'chat-message',
+		message,
+		time
+	});
+	messageInput.value = '';
+	const messageSent = getMessageBody(message, time);
+	chatBody.appendChild(messageSent);
+	chatBody.scrollTop = chatBody.scrollHeight;
+}
+
+function messageReceived(data) {
+	const chatBody = document.querySelector("#chat-body");
+	chatBody.appendChild(getMessageBody(data.message, data.time, data.username));
+	chatBody.scrollTop = chatBody.scrollHeight;
+}
+
+function checkForSubmit() {
+	console.log(event);
+	if(event.keyCode == 13) {
+		sendMessage();
+	}
 }

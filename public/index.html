@@ -1,120 +1,147 @@
 <!DOCTYPE html>
 <html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+			integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<!-- <link rel="stylesheet" href="css/bootstrap.min.css" /> -->
+		<link rel="stylesheet" href="css/styles.css" />
+	</head>
 
-<head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <!-- <link rel="stylesheet" href="css/bootstrap.min.css" /> -->
-    <link rel="stylesheet" href="css/styles.css" />
-</head>
+	<body>
+		<nav class="navbar navbar-dark bg-primary">
+			<span class="navbar-brand mb-0 mx-auto h1" onclick="location.reload(true)">
+				WatchYoutubeTogether
+			</span>
+			<button 
+				id="logout-btn" 
+				class="btn btn-primary mb-0 h1 ml-auto mr-4"
+				onclick="location.reload(true)">
+				Logout
+			</button>
+		</nav>
+		<div class="container">
+			<div class="row justify-content-center">
+				<div id="welcome" class="mt-5 card shadow rounded col-12 col-md-10 col-lg-8 text-center">
+					<div class="h3 my-4">Welcome</div>
+					<p>
+						This website is used for playing youtube videos in group. <br />
+						You can create a room for watching the video. <br />
+						Your friends can join your watchroom and watch the video. <br />
+						You can chat with your friends that are joined in your room. <br />
+						You can change the video by pasting the youtube video link in following format. <br />
+						https://www.youtube.com/watch?v=ATf05n5LBHQ <br />
+						Click on continue to check out the website.
+					</p>
+					<button type="button" class="btn btn-primary mb-2 mt-2 custom-btn" onclick="welcome()">
+						Continue
+					</button>
+				</div>
 
-<body>
-    <nav class="navbar navbar-dark bg-primary">
-        <!-- Navbar content -->
-        <span class="navbar-brand mb-0 mx-auto h1" onclick="location.reload(true)">WatchYoutubeTogether</span>
-        <button id="logout-btn" class="btn btn-primary mb-0 h1 ml-auto mr-4"
-            onclick="location.reload(true)">Logout</button>
-    </nav>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div id="login" class="mt-5 card shadow rounded">
-                <div class="h3 my-4 text-center">Log In</div>
-                <form>
-                    <div class="form-group mx-3 mb-2">
-                        <label for="username" class="label">Username</label>
-                        <input type="text" class="form-control" id="username" placeholder="tushar.moraye">
-                    </div>
-                    <button type="button" class="btn btn-primary mb-2 mt-2 login-btn" onclick="login()">Log In</button>
-                </form>
-                <div id="alert-msg" role="alert">
-                </div>
-            </div>
+				<div id="watch-room" class="mt-5 card shadow rounded">
+					<ul class="nav nav-tabs">
+						<li class="active p-3">
+							<a data-toggle="tab" href="#create-watchroom">
+								Create Watchroom
+							</a>
+						</li>
+						<li class="p-3">
+							<a data-toggle="tab" href="#select-watchroom" onclick="getAllRooms()">
+								Join Watchroom
+							</a>
+						</li>
+					</ul>
+					
+					<div class="tab-content">
+						<div id="create-watchroom" class="tab-pane active">
+							<form>
+								<div class="form-group mx-3 mb-2">
+									<label for="username" class="label">Username</label>
+									<input type="text" class="form-control" id="username" placeholder="tushar.moraye">
+								</div>
+								<div class="form-group mx-3 mb-2">
+									<label for="watchroom-name" class="label">Watchroom name</label>
+									<input type="text" class="form-control" id="watchroom-name" />
+								</div>
+								<button 
+									type="button" 
+									class="btn btn-primary mb-2 mt-2 watchroom-btn"
+									onclick="createWatchroom()">
+									Create
+								</button>
+							</form>
+							<div id="create-watchroom-alert-msg" role="alert"></div>
+						</div>
+						<div id="select-watchroom" class="tab-pane fade">
+							<div class="form-group mx-3 mb-2">
+								<label for="username" class="label">Username</label>
+								<input type="text" class="form-control" id="join-username" placeholder="tushar.moraye">
+							</div>
+							<div id="join-watchroom-alert-msg" role="alert"></div>
+							<div class="form-group mx-3 mb-2">
+								<label for="watchroom-name" class="label">Watchroom name</label>
+								<input 
+									type="text" 
+									class="form-control" 
+									id="watchroom-search-name"
+									onkeyup="getAllRooms()" />
+							</div>
+							<div>
+								<ul id="all-watchrooms" class="card shadow">
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
-            <div id="watch-room" class="mt-5 card shadow rounded">
-                <ul class="nav nav-tabs">
-                    <li class="active p-3"><a data-toggle="tab" href="#create-watchroom">Create Your Watchroom</a></li>
-                    <li class="p-3"><a data-toggle="tab" href="#select-watchroom" onclick="getAllRooms()">Select
-                            existing Watchroom</a></li>
-                </ul>
+		<div id="player-container" class="container-fluid">
+			<div class="row m-0">
+				<div class="col-12 offset-md-1 col-md-10 offset-lg-0 col-lg-8 pl-xl-5">
+					<div class="card shadow rounded my-2" style="flex-direction: row;">
+						<div class="form-group mx-sm-3 my-2" style="width: 75%;">
+							<input type="text" class="form-control" id="video-url">
+						</div>
+						<button type="button" class="btn btn-primary my-2 mr-2 ml-auto" onclick="playVideo()">
+							Play Video
+						</button>
+						<div id="video-url-alert-msg" role="alert"></div>
+					</div>
+					<div id="player"></div>
+				</div>
+				<div class="col-12 offset-md-2 col-md-8 offset-lg-0 col-lg-4 col-xl-4 pr-xl-5">
+					<div id="chat-room" class="card shadow rounded mt-2">
+						<div class="chat-header text-center py-2 border-bottom">Chat Room</div>
+						<div id="chat-body" class="border-bottom">
+						</div>
+						<div class="chat-input-box px-2">
+							<div class="form-group">
+								<input type="text" class="form-control" id="chat-input" onkeypress="checkForSubmit(this)">
+							</div>
+							<button type="button" class="btn btn-primary" onclick="sendMessage()">send</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
-                <div class="tab-content">
-                    <div id="create-watchroom" class="tab-pane active">
-                        <form>
-                            <div class="form-group mx-3 mb-2">
-                                <label for="watchroom-name" class="label">Watchroom name</label>
-                                <input type="text" class="form-control" id="watchroom-name" />
-                            </div>
-                            <button type="button" class="btn btn-primary mb-2 mt-2 login-btn"
-                                onclick="createWatchroom()">Create</button>
-                        </form>
-                        <div id="create-watchroom-alert-msg" role="alert"></div>
-                    </div>
-                    <div id="select-watchroom" class="tab-pane fade">
-                        <div class="form-group mx-3 mb-2">
-                            <label for="watchroom-name" class="label">Watchroom name</label>
-                            <input type="text" class="form-control" id="watchroom-search-name"
-                                onkeyup="getAllRooms()" />
-                        </div>
-                        <div>
-                            <ul id="all-watchrooms" class="card shadow">
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="player-container" class="container-fluid">
-        <div class="row m-0">
-            <div class="col-12 offset-md-1 col-md-10 offset-lg-0 col-lg-8 pl-xl-5">
-                <div class="card shadow rounded my-2" style="flex-direction: row;">
-                    <div class="form-group mx-sm-3 my-2" style="width: 75%;">
-                        <input type="text" class="form-control" id="video-url">
-                    </div>
-                    <button type="button" class="btn btn-primary my-2 mr-2 ml-auto" onclick="playVideo()">
-                        Play Video
-                    </button>
-                    <div id="video-url-alert-msg" role="alert"></div>
-                </div>
-                <div id="player"></div>
-            </div>
-            <div class="col-12 offset-md-2 col-md-8 offset-lg-0 col-lg-4 col-xl-4 pr-xl-5">
-                <div id="chat-room" class="card shadow rounded mt-4">
-                    <div class="chat-header text-center py-2 border-bottom">Chat Room</div>
-                    <div id="chat-body" class="border-bottom">
-
-                    </div>
-                    <div class="chat-input-box px-2">
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="chat-input">
-                        </div>
-                        <button type="button" class="btn btn-primary">send</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+			integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+			crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+			integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+			crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+			integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+			crossorigin="anonymous"></script>
 
 
-    <script src="/socket.io/socket.io.js"></script>
-    <!-- <script src="/js/socket.js"></script> -->
-    <script src="js/connectionManager.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/auth.js"></script>
-    <!-- <script src="js/state.js"></script> -->
-    <script src="js/youtube.js"></script>
-    <!-- <script src="js/auth.js"></script> -->
-</body>
+		<script src="/socket.io/socket.io.js"></script>
+		<script src="js/connectionManager.js"></script>
+		<script src="js/main.js"></script>
+		<script src="js/auth.js"></script>
+		<script src="js/youtube.js"></script>
+	</body>
 
 </html>

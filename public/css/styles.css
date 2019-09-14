@@ -12,8 +12,26 @@ body {
 }
 
 #chat-body {
-    height: 80%;
-    overflow: auto;
+	height: 80%;
+	line-height: 1.2em;	
+	overflow-y: scroll;
+	position : relative; 
+	bottom:0;
+}
+
+#watch-room {
+	display: none;
+}
+
+#messages {
+	margin: 10px;
+	padding: 10px;
+	line-height: 1.2em;
+	height: 550px;
+	max-height: 550px;
+	overflow-y: scroll;
+	position : relative; 
+	bottom:0;
 }
 
 .chat-input-box {
@@ -28,6 +46,7 @@ body {
 }
 
 #login {
+	display: none;
     width: 18rem;
     height: 15rem;
 }
@@ -36,9 +55,15 @@ body {
     font-size: 0.8rem;
 }
 
-.login-btn {
+.watchroom-btn {
     width: 60%;
     margin-left: 20%;
+}
+
+.custom-btn {
+    width: 10rem;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .navbar-brand {
@@ -54,10 +79,6 @@ body {
     position: absolute;
     right: 0;
     cursor: pointer;
-}
-
-#watch-room {
-    display: none;
 }
 
 .nav-tabs li a {
@@ -78,4 +99,35 @@ body {
 
 .list-elements {
     border-bottom: 1px solid rgba(0, 0, 0, .125);
+}
+
+.recieved-message {
+	width: 80%;
+	margin-left: 5px;
+	margin-top: 5px;
+	border: 1px solid rgba(0, 0, 0, .125);
+	background-color: #dff0d8;
+}
+
+.sent-message {
+	width: 80%;
+	margin-right: 5px;
+	margin-left: auto;
+	margin-top: 5px;
+	border: 1px solid rgba(0, 0, 0, .125);
+	background-color: #F5F5F5;
+}
+
+.message-time {
+	float: right;
+}
+
+.message-header {
+	height: 1rem;
+	font-size: 0.8rem;
+	margin: 0 5px;
+}
+
+.message-body {
+	padding: 5px;
 }
