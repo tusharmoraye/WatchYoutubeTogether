@@ -1,11 +1,8 @@
 import { getMessageBody, getVideoId } from './utils';
 
-export const logout = () => {
-    location.reload();
-}
+export const logout = () => location.reload();
 
 export const welcome = () => {
-    console.log('hey');
     document.querySelector('#welcome').style.display = 'none';
     document.querySelector('#watch-room').style.display = 'block';
 }
@@ -52,7 +49,6 @@ export const playVideo = () => {
         alert.className = "";
         alert.innerText = "";
         const videoId = getVideoId(url);
-        console.log("getVideoId ", videoId);
         window.youtubePlayer.cueVideoById(videoId);
         window.connectionManager.send({
             videoId,
@@ -62,7 +58,6 @@ export const playVideo = () => {
 }
 
 export const checkForSubmit = () => {
-    console.log(event);
     if (event.keyCode == 13) {
         sendMessage();
     }

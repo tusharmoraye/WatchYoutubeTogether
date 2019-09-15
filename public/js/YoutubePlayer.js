@@ -5,7 +5,9 @@ export default class YoutubePlayer {
         this.player = null;
         this.lastStatus = null;
         this.secondLastStatus = null;
-        this.isUpdated = false;
+		this.isUpdated = false;
+		this.videoId = null;
+		this.isStartedBySelf = true;
         this.onYoutubePlayerReady = this.onYoutubePlayerReady.bind(this);
         this.onPlayerStateChange = this.onPlayerStateChange.bind(this);
     }
@@ -21,11 +23,13 @@ export default class YoutubePlayer {
     }
 
     onPlayerStateChange(event) {
-        console.log(event);
         if (!this.isUpdated && this.lastStatus !== YT.PlayerState.BUFFERING && (event.data == YT.PlayerState.PLAYING || event.data == YT.PlayerState.PAUSED)) {
             sendPlayerStatus(event.data, this.player.getCurrentTime());
         } else if (this.lastStatus === -1 && event.data === YT.PlayerState.BUFFERING) {
-            sendPlayerStatus(YT.PlayerState.PLAYING, 0);
+			if(this.isStartedBySelf) 
+				sendPlayerStatus(YT.PlayerState.PLAYING, 0);
+			else 
+				this.isStartedBySelf = true;
         } else if (this.secondLastStatus === YT.PlayerState.PAUSED && this.lastStatus === YT.PlayerState.BUFFERING && event.data === YT.PlayerState.PLAYING) {
             sendPlayerStatus(event.data, this.player.getCurrentTime());
         }
@@ -34,16 +38,12 @@ export default class YoutubePlayer {
         this.isUpdated = false;
     }
 
-    stopVideo() {
-        this.player.stopVideo();
-    }
-
     cueVideoById(videoId) {
+		if(this.videoId === videoId) return;
+		this.videoId = videoId;
         const timer = setInterval(() => {
-            console.log('inside interval', this.player, this.player.cueVideoById);
             if (this.player && typeof this.player.cueVideoById === 'function') {
-                console.log('inside interval if');
-                this.player.cueVideoById(videoId);
+                this.player.cueVideoById(this.videoId);
                 clearTimer();
             }
         }, 500);
@@ -51,10 +51,37 @@ export default class YoutubePlayer {
     }
 
     changePlayerStatus(data) {
-        console.log("status ", data);
-        if (data.status === YT.PlayerState.PLAYING) this.player.playVideo();
-        else if (data.status === YT.PlayerState.PAUSED) this.player.pauseVideo();
-        this.player.seekTo(data.time, true);
-        this.isUpdated = true;
-    }
+		const timer = setInterval(() => {
+            if (this.player && this.player.getPlayerState() != undefined && YT) {
+				const playerState = this.player.getPlayerState();
+				if(playerState === YT.PlayerState.CUED || playerState === -1) {
+					this.isStartedBySelf = false;
+					this.player.playVideo();
+					const timer = setInterval(() => {
+						if(this.player.getPlayerState() != YT.PlayerState.PLAYING) return;
+						this.player.seekTo(data.time, true);
+						if (data.status === YT.PlayerState.PLAYING) this.player.playVideo();
+						else if (data.status === YT.PlayerState.PAUSED) this.player.pauseVideo();
+						clearTimer();
+					}, 500);
+					const clearTimer = () => clearInterval(timer);
+				} else {
+					this.player.seekTo(data.time, true);
+					if (data.status === YT.PlayerState.PLAYING) this.player.playVideo();
+					else if (data.status === YT.PlayerState.PAUSED) this.player.pauseVideo();
+				}
+				this.isUpdated = true;
+				clearTimer();
+			}
+        }, 500);
+        const clearTimer = () => clearInterval(timer);
+	}
+	
+	broadcastPlayerState() {
+		if(this.player && YT) {
+			const playerState = this.player.getPlayerState();
+			if(playerState === YT.PlayerState.PLAYING || playerState === YT.PlayerState.PAUSED)
+				sendPlayerStatus(playerState, this.player.getCurrentTime());
+		}
+	}
 }

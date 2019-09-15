@@ -33,6 +33,22 @@ export const getVideoId = url => {
 export const initializeYoutubePlayer = () => {
     const tag = document.createElement('script');
     tag.src = "https://www.youtube.com/iframe_api";
-    const playerContainer = document.querySelector('#player');
-    playerContainer.appendChild(tag);
+    document.querySelector('#player').appendChild(tag);
+}
+
+export const addNewMessage = message => {
+	const chatBody = document.querySelector("#chat-body");
+    chatBody.appendChild(message);
+    chatBody.scrollTop = chatBody.scrollHeight;
+}
+
+export const getUserJoinedMessage = data => {
+	const div = document.createElement('div');
+	div.className = data.isJoined ? "client-join py-1" : "client-left py-1";
+	div.innerText = data.isJoined ? " joined the watchroom" : " left the watchroom";
+	const span = document.createElement('span');
+	span.className = "chat-user-name";
+	span.innerText = data.username;
+	div.insertBefore(span, div.firstChild);
+	return div;
 }

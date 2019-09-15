@@ -25,7 +25,7 @@ class WatchRoom {
         }
         this.clients.delete(client);
         client.watchroom = null;
-    }
+	}
 }
 
 module.exports = WatchRoom;

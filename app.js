@@ -37,27 +37,7 @@ function getWatchroom(id) {
   	return rooms.get(id);
 }
 
-function broadcastWatchroom(watchroom) {
-	if (!watchroom) return null;
-	const clients = [...watchroom.clients];
-	clients.forEach(client => {
-		client.send({
-			type: "watchroom-broadcast",
-			peers: {
-				you: client.id,
-				clients: clients.map(client => {
-					return {
-						id: client.id,
-						username: client.username,
-						state: client.state
-					};
-				})
-			}
-		});
-	});
-}
-
-function isClientPresentInWatchroom(watchroom, user) {
+function isClientInWatchroom(watchroom, user) {
 	if(watchroom && user) {
 		for(let client of watchroom.clients) {
 			if(client.username === user) {
@@ -76,17 +56,11 @@ io.on("connection", conn => {
 		console.log("Message received", msg);
 		const data = JSON.parse(msg);
 
-		if (data.type === "set-username") {
-			client.setUsername(data.username);
-			client.send({
-				type: "username-update",
-				msg: "success"
-			});
-		} else if (data.type === "create-watchroom") {
+		if (data.type === "create-watchroom") {
 			if (getWatchroom(data.id)) {
 				client.send({
 					type: "watchroom-create",
-					err: "Watchroom already exists. Please choose another name."
+					err: "Watchroom already exists.<br /> Please choose another name."
 				});
 			} else {
 				client.setUsername(data.username);
@@ -94,12 +68,11 @@ io.on("connection", conn => {
 				client.send({
 					type: "watchroom-create",
 					msg: "success",
-					videoId: client.state.videoId
+					videoId: client.videoId
 				});
 			}
 		} else if (data.type === "set-video-id") {
-			client.setVideoId(data.videoId);
-			console.log("client ", client, client.watchroom);
+			client.setVideoIdForAll(data.videoId);
 			const broadcastData = {
 				...data,
 				username: client.username
@@ -109,34 +82,33 @@ io.on("connection", conn => {
 			let roomNames = [...rooms.keys()];
 			roomNames.sort();
 			roomNames = roomNames.filter(room => room.includes(data.searchName));
-			console.log("roomNames ", roomNames);
 			client.send({ ...data, roomNames });
 		} else if (data.type === "join-watchroom") {
 			const watchroom = getWatchroom(data.room);
 			if (watchroom) {
-				if(isClientPresentInWatchroom(watchroom, data.username)) {
+				if(isClientInWatchroom(watchroom, data.username)) {
 					client.send({
 						type: "join-watchroom",
 						err: "username already exists"
 					});
 				} else {
 					client.setUsername(data.username);
+					client.videoId = watchroom.admin.videoId;
 					watchroom.join(client);
-					client.state = Object.assign({}, watchroom.admin.state);
 					client.send({
 						type: "join-watchroom",
-						state: client.state
+						videoId: client.videoId,
+
+					});
+					client.broadcast({
+						type: "client-join",
+						username: client.username
 					});
 				}
 			}
-		} else if (data.type === "state-update") {
-			const [key, value] = data.state;
-			client.state[data.fragment][key] = value;
-			client.broadcast(data);
 		} else if (data.type === "play-status") {
 			client.broadcast(data);
 		} else if (data.type === "chat-message") {
-			console.log("client >>> ", client);
 			client.broadcast({ ...data, username: client.username });
 		}
 	});
@@ -145,15 +117,18 @@ io.on("connection", conn => {
 		console.log("Connection closed");
 		const watchroom = client.watchroom;
 		if (watchroom) {
+			client.broadcast({
+				type: 'client-left',
+				username: client.username
+			});
 			watchroom.leave(client);
 			if (watchroom.clients.size === 0) {
 				rooms.delete(watchroom.id);
 			}
 		}
-		console.log(rooms);
 	});
 });
 
 server.listen(port, () =>
-  	console.log(`Example app listening on port ${port}!`)
+  	console.log(`App listening on port ${port}!`)
 );

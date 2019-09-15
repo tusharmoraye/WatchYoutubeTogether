@@ -1,25 +1,15 @@
 import { joinWatchroom } from './eventUtils';
-import { getMessageBody, initializeYoutubePlayer } from './utils';
-
-export const usernameUpdate = data => {
-    console.log("data ", data);
-    const logoutBtn = document.querySelector("#logout-btn");
-    logoutBtn.style.display = 'block';
-}
+import { getMessageBody, initializeYoutubePlayer, addNewMessage, getUserJoinedMessage } from './utils';
 
 export const watchroomCreate = data => {
-    console.log("data ", data);
     if (data.err) {
         const alert = document.querySelector('#create-watchroom-alert-msg');
-        alert.className = "alert alert-danger";
-        alert.innerText = data.err;
+        alert.className = "alert alert-danger text-center";
+        alert.innerHTML = data.err;
     } else {
-        const logoutBtn = document.querySelector("#logout-btn");
-        logoutBtn.style.display = 'block';
-        const watchRoom = document.querySelector("#watch-room");
-        watchRoom.style.display = 'none';
-        const player = document.querySelector("#player-container");
-        player.style.display = 'block';
+        document.querySelector("#logout-btn").style.display = 'block';
+        document.querySelector("#watch-room").style.display = 'none';
+        document.querySelector("#player-container").style.display = 'block';
         initializeYoutubePlayer();
         window.youtubePlayer.cueVideoById(data.videoId);
     }
@@ -51,27 +41,24 @@ export const showAllRooms = data => {
 }
 
 export const setInitialstate = data => {
-    console.log("data ", data);
     if (data.err) {
         const alert = document.querySelector("#join-watchroom-alert-msg");
-        alert.className = "alert alert-danger";
+        alert.className = "alert alert-danger text-center";
         alert.innerText = data.err;
     } else {
-        const logoutBtn = document.querySelector("#logout-btn");
-        logoutBtn.style.display = 'block';
-        const watchRoom = document.querySelector("#watch-room");
-        watchRoom.style.display = 'none';
-        const player = document.querySelector("#player-container");
-        player.style.display = 'block';
+        document.querySelector("#logout-btn").style.display = 'block';
+        document.querySelector("#watch-room").style.display = 'none';
+        document.querySelector("#player-container").style.display = 'block';
         initializeYoutubePlayer();
-        window.youtubePlayer.cueVideoById(data.state.videoId);
+        window.youtubePlayer.cueVideoById(data.videoId);
     }
 }
 
-export const playerStatusUpdate = data => window.youtubePlayer.changePlayerStatus(data);
+export const playerStatusUpdate = data => 
+	window.youtubePlayer.changePlayerStatus(data);
 
-export const messageReceived = data => {
-    const chatBody = document.querySelector("#chat-body");
-    chatBody.appendChild(getMessageBody(data.message, data.time, data.username));
-    chatBody.scrollTop = chatBody.scrollHeight;
-}
+export const messageReceived = data => 
+	addNewMessage(getMessageBody(data.message, data.time, data.username));
+	
+export const userJoined = data => 
+	addNewMessage(getUserJoinedMessage(data));

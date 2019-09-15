@@ -3,7 +3,8 @@ import io from 'socket.io-client';
 
 export default class ConnectionManager {
     constructor() {
-        this.conn = null;
+		this.conn = null;
+		this.isAdmin = false;
     }
 
     connect() {
@@ -30,11 +31,9 @@ export default class ConnectionManager {
     }
 
     receive(msg) {
-        console.log("msg ", msg);
         const data = JSON.parse(msg);
-        if (data.type === 'username-update') {
-            recievedEventUtils.usernameUpdate(data);
-        } else if (data.type === 'watchroom-create') {
+        if (data.type === 'watchroom-create') {
+			this.isAdmin = true;
             recievedEventUtils.watchroomCreate(data);
         } else if (data.type === 'set-video-id') {
             recievedEventUtils.changeVideoId(data);
@@ -46,6 +45,12 @@ export default class ConnectionManager {
             recievedEventUtils.playerStatusUpdate(data);
         } else if (data.type === 'chat-message') {
 			recievedEventUtils.messageReceived(data);
+		} else if (data.type === 'client-join') {
+			recievedEventUtils.userJoined({ ...data, isJoined: true});
+			if(this.isAdmin) 
+				window.youtubePlayer.broadcastPlayerState();
+		} else if (data.type === 'client-left') {
+			recievedEventUtils.userJoined({ ...data, isJoined: false});
 		}
     }
 

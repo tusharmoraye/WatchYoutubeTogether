@@ -14,7 +14,7 @@ body {
 #chat-body {
 	height: 80%;
 	line-height: 1.2em;	
-	overflow-y: scroll;
+	overflow-y: auto;
 	position : relative; 
 	bottom:0;
 }
@@ -130,4 +130,18 @@ body {
 
 .message-body {
 	padding: 5px;
+}
+
+.client-join {
+	text-align: center;
+	color: green;
+}
+
+.client-left {
+	text-align: center;
+	color: red;
+}
+
+.chat-user-name {
+	color: blue;
 }

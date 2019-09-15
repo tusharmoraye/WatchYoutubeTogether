@@ -5,20 +5,17 @@ class Client {
         this.id = conn.id;
         this.username = '';
         this.isAdmin = false;
-
-        this.state = {
-            videoId: 'ATf05n5LBHQ',
-            videoState: {
-                paused: true,
-                position: 0,
-            },
-        };
+		this.videoId = 'ATf05n5LBHQ';
     }
 
     setVideoId(id) {
-        this.state.videoId = id;
-        console.log(this.state.videoId);
-    }
+		this.videoId = id;
+	}
+	
+	setVideoIdForAll(id) {
+		[...this.watchroom.clients]
+			.forEach(client => client.setVideoId(id));
+	}
 
     setUsername(name) {
         this.username = name;
