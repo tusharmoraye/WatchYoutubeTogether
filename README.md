@@ -1,5 +1,5 @@
 # WatchYoutubeTogether
-A web application to watch youtube videos with your friends.
+A web application to watch youtube videos with your friends. Check out the application [here](https://watch-youtube-together.herokuapp.com).
 
 ## Features
 * Can create a room to watch videos with your friends.
