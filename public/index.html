@@ -85,12 +85,12 @@
     <div id="player-container" class="container-fluid">
         <div class="row m-0">
             <div class="col-12 offset-md-1 col-md-10 offset-lg-0 col-lg-8 pl-xl-5">
-                <div class="card shadow rounded my-2" style="flex-direction: row;">
-                    <div class="form-group mx-sm-3 my-2" style="width: 75%;">
+                <div class="card shadow rounded my-2 play-video-container">
+                    <div class="form-group mx-sm-3 my-2">
                         <input type="text" class="form-control" id="video-url">
                     </div>
-                    <button id="play-video-btn" type="button" class="btn btn-primary my-2 mr-2 ml-auto">
-                        Play Video
+                    <button id="play-video-btn" type="button" class="btn btn-primary my-2 mr-2">
+                        Play
                     </button>
                     <div id="video-url-alert-msg" role="alert"></div>
                 </div>
@@ -102,10 +102,11 @@
                     <div id="chat-body" class="border-bottom">
                     </div>
                     <div class="chat-input-box px-2">
+                        <div class="typing-status">typing</div>
                         <div class="form-group">
                             <input type="text" class="form-control" id="chat-input">
+                            <button type="button" class="btn btn-primary" id="chat-send-btn">send</button>
                         </div>
-                        <button type="button" class="btn btn-primary" id="chat-send-btn">send</button>
                     </div>
                 </div>
             </div>

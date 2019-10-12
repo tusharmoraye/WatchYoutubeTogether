@@ -1,5 +1,7 @@
 import { getMessageBody, getVideoId } from './utils';
 
+let timer, isStatusSent;
+
 export const logout = () => location.reload();
 
 export const welcome = () => {
@@ -57,13 +59,28 @@ export const playVideo = () => {
     }
 }
 
+const sendTypingStatus = status => {
+    window.connectionManager.send({
+        type: 'typing-status',
+        status
+    });
+    isStatusSent = status;
+};
+
 export const checkForSubmit = () => {
     if (event.keyCode == 13) {
         sendMessage();
+    } else {
+        if(!isStatusSent)
+            sendTypingStatus(true);
+        if(timer)
+            clearTimeout(timer);
+        timer = setTimeout(() => sendTypingStatus(false), 5000);
     }
-}
+};
 
 export const sendMessage = () => {
+    sendTypingStatus(false);
     const messageInput = document.querySelector("#chat-input");
     const chatBody = document.querySelector("#chat-body");
     const message = messageInput.value;

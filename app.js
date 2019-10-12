@@ -110,6 +110,8 @@ io.on("connection", conn => {
 			client.broadcast(data);
 		} else if (data.type === "chat-message") {
 			client.broadcast({ ...data, username: client.username });
+		} else if (data.type === "typing-status") {
+			client.broadcast({ ...data, username: client.username });
 		}
 	});
 

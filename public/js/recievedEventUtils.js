@@ -1,6 +1,8 @@
 import { joinWatchroom } from './eventUtils';
 import { getMessageBody, initializeYoutubePlayer, addNewMessage, getUserJoinedMessage } from './utils';
 
+const typingPeople = [];
+
 export const watchroomCreate = data => {
     if (data.err) {
         const alert = document.querySelector('#create-watchroom-alert-msg');
@@ -61,4 +63,29 @@ export const messageReceived = data =>
 	addNewMessage(getMessageBody(data.message, data.time, data.username));
 	
 export const userJoined = data => 
-	addNewMessage(getUserJoinedMessage(data));
+    addNewMessage(getUserJoinedMessage(data));
+    
+const getFormattedTypingPeople = () => {
+    return 'typing: ' + typingPeople.join(', ');
+}
+
+export const updateTypingStatus = data => {
+    const { status, username } = data;
+    const typingContainer = document.querySelector('.typing-status');
+    console.log(typingContainer);
+    if(status) {
+        if(typingPeople.indexOf(username) === -1) {
+            typingPeople.push(username);
+            typingContainer.style.top = "-30px";
+            typingContainer.innerText = getFormattedTypingPeople();
+        }
+    } else {
+        if(typingPeople.indexOf(username) != -1) {
+            typingPeople.splice(typingPeople.indexOf(username), 1);
+            if(typingPeople.length)
+                typingContainer.innerText = getFormattedTypingPeople();
+            else
+                typingContainer.style.top = "0";
+        }
+    }
+};

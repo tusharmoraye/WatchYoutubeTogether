@@ -51,7 +51,9 @@ export default class ConnectionManager {
 				window.youtubePlayer.broadcastPlayerState();
 		} else if (data.type === 'client-left') {
 			recievedEventUtils.userJoined({ ...data, isJoined: false});
-		}
+		} else if (data.type === 'typing-status') {
+            recievedEventUtils.updateTypingStatus(data);
+        }
     }
 
     send(data) {

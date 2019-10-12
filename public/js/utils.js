@@ -1,14 +1,27 @@
+
+const formatAMPM = (date) => {
+    date = new Date(date);
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+    const ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+    minutes = minutes < 10 ? '0'+minutes : minutes;
+    return hours + ':' + minutes + ' ' + ampm;
+  }
+
 export const getMessageBody = (message, time, username = null) => {
     const div = document.createElement('div');
     div.className = "sent-message";
     const messageHeader = document.createElement('div');
     messageHeader.className = "message-header";
     const messageTime = document.createElement('span');
-    messageTime.innerText = time;
+    messageTime.innerText = formatAMPM(time);
     messageTime.className = "message-time";
     if (username) {
         div.className = "recieved-message";
         const messageUser = document.createElement('span');
+        messageUser.className = "mr-4";
         messageUser.innerText = "# " + username;
         messageHeader.appendChild(messageUser);
     }

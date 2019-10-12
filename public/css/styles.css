@@ -2,6 +2,10 @@ body {
     background-color: #e3f2fd;
 }
 
+/* .container {
+	display: none;
+} */
+
 #player-container {
     display: none;
 }
@@ -12,41 +16,54 @@ body {
 }
 
 #chat-body {
-	height: 80%;
-	line-height: 1.2em;	
-	overflow-y: auto;
-	position : relative; 
-	bottom:0;
+    height: 80%;
+    line-height: 1.2em;
+    overflow-y: auto;
+    position: relative;
+    bottom: 0;
 }
 
 #watch-room {
-	display: none;
+    display: none;
 }
 
 #messages {
-	margin: 10px;
-	padding: 10px;
-	line-height: 1.2em;
-	height: 550px;
-	max-height: 550px;
-	overflow-y: scroll;
-	position : relative; 
-	bottom:0;
+    margin: 10px;
+    padding: 10px;
+    line-height: 1.2em;
+    height: 550px;
+    max-height: 550px;
+    overflow-y: scroll;
+    position: relative;
+    bottom: 0;
 }
 
 .chat-input-box {
     height: 10%;
+    position: relative;
 }
 
 .chat-input-box .form-group {
     margin: 0;
-    margin-top: 10px;
+    padding-top: 10px;
+    width: 95%;
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    background-color: white;
+}
+
+#chat-input {
     width: 70%;
     display: inline-block;
 }
 
+#chat-send-btn {
+    display: inline-block;
+}
+
 #login {
-	display: none;
+    display: none;
     width: 18rem;
     height: 15rem;
 }
@@ -102,46 +119,70 @@ body {
 }
 
 .recieved-message {
-	width: 80%;
-	margin-left: 5px;
-	margin-top: 5px;
-	border: 1px solid rgba(0, 0, 0, .125);
-	background-color: #dff0d8;
+    max-width: 80%;
+    width: fit-content;
+    margin-left: 5px;
+    margin-top: 5px;
+    border: 1px solid rgba(0, 0, 0, .125);
+    background-color: #dff0d8;
 }
 
 .sent-message {
-	width: 80%;
-	margin-right: 5px;
-	margin-left: auto;
-	margin-top: 5px;
-	border: 1px solid rgba(0, 0, 0, .125);
-	background-color: #F5F5F5;
+    max-width: 80%;
+    width: fit-content;
+    margin-right: 5px;
+    margin-left: auto;
+    margin-top: 5px;
+    border: 1px solid rgba(0, 0, 0, .125);
+    background-color: #F5F5F5;
 }
 
 .message-time {
-	float: right;
+    float: right;
 }
 
 .message-header {
-	height: 1rem;
-	font-size: 0.8rem;
-	margin: 0 5px;
+    height: 1rem;
+    font-size: 0.8rem;
+    margin: 0 5px;
 }
 
 .message-body {
-	padding: 5px;
+    padding: 5px;
 }
 
 .client-join {
-	text-align: center;
-	color: green;
+    text-align: center;
+    color: green;
 }
 
 .client-left {
-	text-align: center;
-	color: red;
+    text-align: center;
+    color: red;
 }
 
 .chat-user-name {
-	color: blue;
+    color: blue;
+}
+
+.typing-status {
+    max-width: 90%;
+    background-color: bisque;
+    position: absolute;
+    top: 0;
+    padding: 5px 5px 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    transition: top linear .5s;
+}
+
+.play-video-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.play-video-container .form-group {
+    width: 75%;
 }
