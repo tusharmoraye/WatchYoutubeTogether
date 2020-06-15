@@ -2,116 +2,125 @@
 <html>
 
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WatchYoutubeTogether</title>
+  <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,700&display=swap" rel="stylesheet">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"
+    integrity="sha384-1CmrxMRARb6aLqgBO7yyAxTOQE2AKb9GfXnEo760AUcUmFx3ibVJJAzGytlQcNXd"
+    crossorigin="anonymous"></script>
 </head>
 
 <body>
-    <nav class="navbar navbar-dark bg-primary">
-        <span class="navbar-brand mb-0 mx-auto h1">WatchYoutubeTogether</span>
-        <button id="logout-btn" class="btn btn-primary mb-0 h1 ml-auto mr-4">
-            Logout
+  <nav class="navbar navbar-dark bg-primary">
+    <span class="navbar-brand mb-0 mx-auto h1">WatchYoutubeTogether</span>
+    <button id="logout-btn" class="btn btn-primary mb-0 h1 ml-auto mr-4">
+      Logout
+    </button>
+  </nav>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div id="welcome" class="mt-5 card shadow rounded col-12 col-md-10 col-lg-8 text-center">
+        <div class="h3 my-4">Welcome</div>
+        <p>
+          This website is used for playing youtube videos in group. <br />
+          You can create a room for watching the video. <br />
+          Your friends can join your watchroom and watch the video. <br />
+          You can chat with your friends that are joined in your room. <br />
+          You can change the video by pasting the youtube video link in following format. <br />
+          https://www.youtube.com/watch?v=LXb3EKWsInQ <br />
+          Click on continue to check out the website.
+        </p>
+        <button id="welcome-btn" type="button" class="btn btn-primary mb-2 mt-2 custom-btn">
+          Continue
         </button>
-    </nav>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div id="welcome" class="mt-5 card shadow rounded col-12 col-md-10 col-lg-8 text-center">
-                <div class="h3 my-4">Welcome</div>
-                <p>
-                    This website is used for playing youtube videos in group. <br />
-                    You can create a room for watching the video. <br />
-                    Your friends can join your watchroom and watch the video. <br />
-                    You can chat with your friends that are joined in your room. <br />
-                    You can change the video by pasting the youtube video link in following format. <br />
-                    https://www.youtube.com/watch?v=ATf05n5LBHQ <br />
-                    Click on continue to check out the website.
-                </p>
-                <button id="welcome-btn" type="button" class="btn btn-primary mb-2 mt-2 custom-btn">
-                    Continue
-                </button>
-            </div>
+      </div>
 
-            <div id="watch-room" class="mt-5 card shadow rounded">
-                <ul class="nav nav-tabs">
-                    <li class="active p-3">
-                        <a data-toggle="tab" href="#create-watchroom">
-                            Create Watchroom
-                        </a>
-                    </li>
-                    <li class="p-3">
-                        <a id="join-watchroom-tab" data-toggle="tab" href="#select-watchroom">
-                            Join Watchroom
-                        </a>
-                    </li>
-                </ul>
+      <div id="watch-room" class="mt-5 card shadow rounded">
+        <ul class="nav nav-tabs">
+          <li class="active p-3">
+            <a data-toggle="tab" href="#create-watchroom">
+              Create Watchroom
+            </a>
+          </li>
+          <li class="p-3">
+            <a id="join-watchroom-tab" data-toggle="tab" href="#select-watchroom">
+              Join Watchroom
+            </a>
+          </li>
+        </ul>
 
-                <div class="tab-content">
-                    <div id="create-watchroom" class="tab-pane active">
-                        <form>
-                            <div class="form-group mx-3 mb-2">
-                                <label for="username" class="label">Username</label>
-                                <input type="text" class="form-control" id="username" placeholder="tushar.moraye">
-                            </div>
-                            <div class="form-group mx-3 mb-2">
-                                <label for="watchroom-name" class="label">Watchroom name</label>
-                                <input type="text" class="form-control" id="watchroom-name" />
-                            </div>
-                            <button id="create-watchroom-btn" type="button"
-                                class="btn btn-primary mb-2 mt-2 watchroom-btn">
-                                Create
-                            </button>
-                        </form>
-                        <div id="create-watchroom-alert-msg" role="alert"></div>
-                    </div>
-                    <div id="select-watchroom" class="tab-pane fade">
-                        <div class="form-group mx-3 mb-2">
-                            <label for="username" class="label">Username</label>
-                            <input type="text" class="form-control" id="join-username" placeholder="tushar.moraye">
-                        </div>
-                        <div id="join-watchroom-alert-msg" role="alert"></div>
-                        <div class="form-group mx-3 mb-2">
-                            <label for="watchroom-name" class="label">Watchroom name</label>
-                            <input type="text" class="form-control" id="watchroom-search-name" />
-                        </div>
-                        <div>
-                            <ul id="all-watchrooms" class="card shadow">
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+        <div class="tab-content">
+          <div id="create-watchroom" class="tab-pane active">
+            <form>
+              <div class="form-group mx-3 mb-2">
+                <label for="username" class="label">Username</label>
+                <input type="text" class="form-control" id="username" placeholder="tushar.moraye">
+              </div>
+              <div class="form-group mx-3 mb-2">
+                <label for="watchroom-name" class="label">Watchroom name</label>
+                <input type="text" class="form-control" id="watchroom-name" />
+              </div>
+              <button id="create-watchroom-btn" type="button" class="btn btn-primary mb-2 mt-2 watchroom-btn">
+                Create
+              </button>
+            </form>
+            <div id="create-watchroom-alert-msg" role="alert"></div>
+          </div>
+          <div id="select-watchroom" class="tab-pane fade">
+            <div class="form-group mx-3 mb-2">
+              <label for="username" class="label">Username</label>
+              <input type="text" class="form-control" id="join-username" placeholder="tushar.moraye">
             </div>
+            <div id="join-watchroom-alert-msg" role="alert"></div>
+            <div class="form-group mx-3 mb-2">
+              <label for="watchroom-name" class="label">Watchroom name</label>
+              <input type="text" class="form-control" id="watchroom-search-name" />
+            </div>
+            <div>
+              <ul id="all-watchrooms" class="card shadow">
+              </ul>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 
-    <div id="player-container" class="container-fluid">
-        <div class="row m-0">
-            <div class="col-12 offset-md-1 col-md-10 offset-lg-0 col-lg-8 pl-xl-5">
-                <div class="card shadow rounded my-2 play-video-container">
-                    <div class="form-group mx-sm-3 my-2">
-                        <input type="text" class="form-control" id="video-url">
-                    </div>
-                    <button id="play-video-btn" type="button" class="btn btn-primary my-2 mr-2">
-                        Play
-                    </button>
-                    <div id="video-url-alert-msg" role="alert"></div>
-                </div>
-                <div id="player"></div>
-            </div>
-            <div class="col-12 offset-md-2 col-md-8 offset-lg-0 col-lg-4 col-xl-4 pr-xl-5">
-                <div id="chat-room" class="card shadow rounded mt-2">
-                    <div class="chat-header text-center py-2 border-bottom">Chat Room</div>
-                    <div id="chat-body" class="border-bottom">
-                    </div>
-                    <div class="chat-input-box px-2">
-                        <div class="typing-status">typing</div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="chat-input">
-                            <button type="button" class="btn btn-primary" id="chat-send-btn">send</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <div id="player-container" class="container-fluid">
+    <div class="row m-0">
+      <div class="col-12 offset-md-1 col-md-10 offset-lg-0 col-lg-8 pl-xl-5">
+        <div class="card shadow rounded my-2 play-video-container">
+          <div class="form-group mx-sm-3 my-2">
+            <input type="text" class="form-control" id="video-url">
+          </div>
+          <button id="play-video-btn" type="button" class="btn btn-primary my-2 mr-2">
+            Play
+          </button>
+          <div id="video-url-alert-msg" role="alert"></div>
         </div>
+        <div id="player"></div>
+      </div>
+      <div class="col-12 offset-md-2 col-md-8 offset-lg-0 col-lg-4 col-xl-4 pr-xl-5">
+        <div id="chat-room" class="card shadow rounded mt-2">
+          <div class="chat-header text-center py-2 border-bottom">Chat Room</div>
+          <div id="chat-body" class="border-bottom">
+          </div>
+          <div class="chat-input-box px-2">
+            <div class="typing-status">typing</div>
+            <div class="form-group">
+              <input type="text" class="form-control" id="chat-input">
+              <button type="button" class="btn btn-primary" id="chat-send-btn">send</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </body>
 
 </html>

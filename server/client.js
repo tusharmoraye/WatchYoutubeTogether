@@ -5,17 +5,17 @@ class Client {
         this.id = conn.id;
         this.username = '';
         this.isAdmin = false;
-		this.videoId = 'ATf05n5LBHQ';
+        this.videoId = 'LXb3EKWsInQ';
     }
 
     setVideoId(id) {
-		this.videoId = id;
-	}
-	
-	setVideoIdForAll(id) {
-		[...this.watchroom.clients]
-			.forEach(client => client.setVideoId(id));
-	}
+        this.videoId = id;
+    }
+
+    setVideoIdForAll(id) {
+        [...this.watchroom.clients]
+            .forEach(client => client.setVideoId(id));
+    }
 
     setUsername(name) {
         this.username = name;
@@ -35,12 +35,7 @@ class Client {
 
     send(data) {
         const msg = JSON.stringify(data);
-        console.log(`Sending message ${msg}`);
-        this.conn.send(msg, function ack(err) {
-            if (err) {
-                console.log('Error sending message', msg, err);
-            }
-        });
+        this.conn.send(msg, err => err && console.log('Error sending message', msg, err));
     }
 }
 

@@ -1,6 +1,9 @@
 const path = require('path');
-const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const TerserJSPlugin = require('terser-webpack-plugin');
 
 module.exports = {
     entry: './public/js/main.js',
@@ -12,18 +15,24 @@ module.exports = {
         rules: [
             {
                 test: /\.css$/,
-                use: ExtractTextWebpackPlugin.extract({
-                    use: 'css-loader',
-                }),
-            },
+                use: [MiniCssExtractPlugin.loader, 'css-loader'],
+            }
         ],
     },
     plugins: [
+        new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             hash: true,
+            minify: true,
             template: './public/index.html',
             filename: 'index.html'
         }),
-        new ExtractTextWebpackPlugin('styles.css')
-    ]
+        new MiniCssExtractPlugin({
+            filename: '[name].css',
+        }),
+    ],
+    optimization: {
+        minimize: true,
+        minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
+    },
 }

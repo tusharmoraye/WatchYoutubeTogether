@@ -3,8 +3,6 @@ import YoutubePlayer from './YoutubePlayer';
 import * as listeners from './eventUtils';
 
 // for adding bootstrap to webpack bundle
-import 'bootstrap/dist/js/bootstrap.min.js';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/styles.css';
 
 // add event listeners

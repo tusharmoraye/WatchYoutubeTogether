@@ -10,10 +10,8 @@ export default class ConnectionManager {
     connect() {
         this.conn = io();
         this.conn.addEventListener('open', () => {
-            console.log('Connection established');
         });
         this.conn.addEventListener('message', event => {
-            console.log('Received message', event);
             this.receive(event);
         });
     }
@@ -58,7 +56,6 @@ export default class ConnectionManager {
 
     send(data) {
         const msg = JSON.stringify(data);
-        console.log('Sending message', msg);
         this.conn.send(msg);
     }
 }

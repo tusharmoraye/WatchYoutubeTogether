@@ -72,7 +72,6 @@ const getFormattedTypingPeople = () => {
 export const updateTypingStatus = data => {
     const { status, username } = data;
     const typingContainer = document.querySelector('.typing-status');
-    console.log(typingContainer);
     if(status) {
         if(typingPeople.indexOf(username) === -1) {
             typingPeople.push(username);

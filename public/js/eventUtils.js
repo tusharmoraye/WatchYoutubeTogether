@@ -71,11 +71,11 @@ export const checkForSubmit = () => {
     if (event.keyCode == 13) {
         sendMessage();
     } else {
-        if(!isStatusSent)
+        if (!isStatusSent)
             sendTypingStatus(true);
-        if(timer)
+        if (timer)
             clearTimeout(timer);
-        timer = setTimeout(() => sendTypingStatus(false), 5000);
+        timer = setTimeout(() => sendTypingStatus(false), 2000);
     }
 };
 
@@ -84,7 +84,7 @@ export const sendMessage = () => {
     const messageInput = document.querySelector("#chat-input");
     const chatBody = document.querySelector("#chat-body");
     const message = messageInput.value;
-    const time = new Date().toLocaleString();
+    const time = new Date().toISOString();
     if (!message) return;
     window.connectionManager.send({
         type: 'chat-message',
@@ -107,17 +107,17 @@ export const sendPlayerStatus = (status, time) => {
 
 export const joinWatchroom = room => {
     const usernameInput = document.querySelector('#join-username');
-	const username = usernameInput.value;
-	if (username && room) {
+    const username = usernameInput.value;
+    if (username && room) {
         window.connectionManager.send({
             type: 'join-watchroom',
-			room,
-			username
-		});
-		usernameInput.value = "";
-		return;
-	}
-	const alert = document.querySelector("#join-watchroom-alert-msg");
-	alert.className = "alert alert-danger";
-	alert.innerText = "please enter the username";
+            room,
+            username
+        });
+        usernameInput.value = "";
+        return;
+    }
+    const alert = document.querySelector("#join-watchroom-alert-msg");
+    alert.className = "alert alert-danger";
+    alert.innerText = "please enter the username";
 }

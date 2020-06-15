@@ -6,9 +6,9 @@ const formatAMPM = (date) => {
     const ampm = hours >= 12 ? 'pm' : 'am';
     hours = hours % 12;
     hours = hours ? hours : 12;
-    minutes = minutes < 10 ? '0'+minutes : minutes;
+    minutes = minutes < 10 ? '0' + minutes : minutes;
     return hours + ':' + minutes + ' ' + ampm;
-  }
+}
 
 export const getMessageBody = (message, time, username = null) => {
     const div = document.createElement('div');
@@ -50,18 +50,18 @@ export const initializeYoutubePlayer = () => {
 }
 
 export const addNewMessage = message => {
-	const chatBody = document.querySelector("#chat-body");
+    const chatBody = document.querySelector("#chat-body");
     chatBody.appendChild(message);
     chatBody.scrollTop = chatBody.scrollHeight;
 }
 
 export const getUserJoinedMessage = data => {
-	const div = document.createElement('div');
-	div.className = data.isJoined ? "client-join py-1" : "client-left py-1";
-	div.innerText = data.isJoined ? " joined the watchroom" : " left the watchroom";
-	const span = document.createElement('span');
-	span.className = "chat-user-name";
-	span.innerText = data.username;
-	div.insertBefore(span, div.firstChild);
-	return div;
+    const div = document.createElement('div');
+    div.className = "py-2 " + (data.isJoined ? "client-join" : "client-left");
+    div.innerText = data.isJoined ? " joined the watchroom" : " left the watchroom";
+    const span = document.createElement('span');
+    span.className = "chat-user-name";
+    span.innerText = data.username;
+    div.insertBefore(span, div.firstChild);
+    return div;
 }
