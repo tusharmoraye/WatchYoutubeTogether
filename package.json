@@ -2,10 +2,10 @@
   "name": "wyt",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "server/app.js",
   "scripts": {
-    "start": "node app",
-    "dev": "webpack --mode development && node app",
+    "start": "node ./server/app",
+    "dev": "webpack --mode development && npm run start",
     "build": "webpack --mode production",
     "heroku-postbuild": "webpack --mode production"
   },

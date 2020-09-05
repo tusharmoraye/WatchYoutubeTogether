@@ -2,22 +2,23 @@ var express = require("express");
 var http = require("http");
 var bodyParser = require("body-parser");
 const path = require("path");
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 3000;
 
 var app = express();
 var server = http.createServer(app);
 var io = require("socket.io").listen(server);
-const WatchRoom = require("./server/watchRoom");
-const Client = require("./server/client");
+const WatchRoom = require("./watchRoom");
+const Client = require("./client");
 const rooms = new Map();
 
 // Serves resources from dist folder
-app.use("/", express.static(path.join(__dirname, "dist")));
+console.log(path.join(__dirname, "../dist"));
+app.use("/", express.static(path.join(__dirname, "../dist")));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 function createClient(conn) {
-  	return new Client(conn);
+	return new Client(conn);
 }
 
 function createWatchroom(id, client) {
@@ -34,13 +35,13 @@ function createWatchroom(id, client) {
 }
 
 function getWatchroom(id) {
-  	return rooms.get(id);
+	return rooms.get(id);
 }
 
 function isClientInWatchroom(watchroom, user) {
-	if(watchroom && user) {
-		for(let client of watchroom.clients) {
-			if(client.username === user) {
+	if (watchroom && user) {
+		for (let client of watchroom.clients) {
+			if (client.username === user) {
 				return true;
 			}
 		}
@@ -86,7 +87,7 @@ io.on("connection", conn => {
 		} else if (data.type === "join-watchroom") {
 			const watchroom = getWatchroom(data.room);
 			if (watchroom) {
-				if(isClientInWatchroom(watchroom, data.username)) {
+				if (isClientInWatchroom(watchroom, data.username)) {
 					client.send({
 						type: "join-watchroom",
 						err: "username already exists"
@@ -132,5 +133,5 @@ io.on("connection", conn => {
 });
 
 server.listen(port, () =>
-  	console.log(`App listening on port ${port}!`)
+	console.log(`App listening on port ${port}!`)
 );
